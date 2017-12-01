@@ -36,6 +36,8 @@ KLua.merge({"ㅁ", "ㅣ"}) --미
 ```lua
 KLua.exists("미쿠의 머리카락은 정말 길어서 바닥에 쓸릴 것 같아", "ㅎ") -- false
 KLua.exists("미쿠의 머리카락은 정말 길어서 바닥에 쓸릴 것 같아", "ㅋ") -- true
+KLua.exists("미쿠의 머리카락은 정말 길어서 바닥에 쓸릴 것 같아", "미쿠") -- true
+KLua.exists("Hatsune Miku", "M") -- true
 ```
 
 개발자
