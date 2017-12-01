@@ -83,7 +83,6 @@ end
 
 local returnTable = {}
 for k,v in pairs(utf8) do
-    print(k,v)
     returnTable[k] = v
 end
 returnTable.merge = merge
