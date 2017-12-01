@@ -3,7 +3,7 @@ A Korean string library for lua<br>
 Lua를 위한 한국어 지원 라이브러리
 
 KLua-String은 Lua에서 지원하지 않는 한글 관련 string 함수들을 제공합니다.
-찾기, 바꾸기 등의 기본적인 기능은 utf8(https://github.com/Stepets/utf8.lua)에 기반하였으며
+찾기, 바꾸기 등의 기본적인 기능은 utf8( https://github.com/Stepets/utf8.lua )에 기반하였으며
 그 외에 현재 개발된 기능은 아래와 같습니다.
 
 #### 구현된 함수들
