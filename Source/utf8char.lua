@@ -932,7 +932,7 @@ local function matcherGenerator(regex, plain)
 					table.insert(captures, utf8sub(str, pair[1], pair[2]))
 				end
 			end
-			return self.seqStart, self.str - 1, unpack(captures)
+			return self.seqStart, self.str - 1, table.unpack(captures)
 		end
 	end
 
@@ -951,7 +951,7 @@ local function utf8match(str, regex, init)
 	local found = {utf8find(str, regex, init)}
 	if found[1] then
 		if found[3] then
-			return unpack(found, 3)
+			return table.unpack(found, 3)
 		end
 		return utf8sub(str, found[1], found[2])
 	end
@@ -966,7 +966,7 @@ local function utf8gmatch(str, regex, all)
 		if found[1] then
 			lastChar = found[2] + 1
 			if found[all and 1 or 3] then
-				return unpack(found, all and 1 or 3)
+				return table.unpack(found, all and 1 or 3)
 			end
 			return utf8sub(str, found[1], found[2])
 		end
@@ -999,7 +999,7 @@ local function replace(repl, args)
 		ret = repl[args[1] or args[0]] or ''
 	elseif type(repl) == 'function' then
 		if #args > 0 then
-			ret = repl(unpack(args, 1)) or ''
+			ret = repl(table.unpack(args, 1)) or ''
 		else
 			ret = repl(args[0]) or ''
 		end
@@ -1015,7 +1015,7 @@ local function utf8gsub(str, regex, repl, limit)
 	local found = {it()}
 	local n = 0
 	while #found > 0 and limit ~= n do
-		local args = {[0] = utf8sub(str, found[1], found[2]), unpack(found, 3)}
+		local args = {[0] = utf8sub(str, found[1], found[2]), table.unpack(found, 3)}
 		ret = ret .. utf8sub(str, prevEnd, found[1] - 1)
 		.. replace(repl, args)
 		prevEnd = found[2] + 1
