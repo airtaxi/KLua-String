@@ -88,15 +88,10 @@ local split = function(origStr)
     local returnTable = {}
     for ik = 1, utf8.len(origStr), 1 do
         local bytedStr = utf8.byte(utf8.sub(origStr, ik, ik))
-        print("++", utf8.sub(origStr, ik, ik), bytedStr, utf8.byte("ㄱ"), utf8.byte("힣"))
         if bytedStr >= utf8.byte("ㄱ") and bytedStr <= utf8.byte("힣") then
             local indexFirst = math.floor(((((bytedStr-44032) - (bytedStr-44032)%28))/28) / 21) + 1
             local indexSecond = math.floor(((((bytedStr-44032) - (bytedStr-44032)%28))/28) % 21) + 1
             local indexThird = math.floor((bytedStr-44032) % 28)
-            
-            print(indexFirst, #i_jaums, i_jaums[indexFirst])
-            print(indexSecond, #i_moums, i_moums[indexSecond])
-            print(indexThird, #i_jaums_jongsung, i_jaums_jongsung[indexThird])
     
             if i_jaums[indexFirst] == nil then
                 returnTable[#returnTable+1] = {utf8.char(bytedStr)}
