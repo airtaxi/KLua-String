@@ -8,7 +8,8 @@ KLua-String은 Lua에서 지원하지 않는 한글 관련 string 함수들을 �
 
 #### 구현된 함수들
 - KLua.merge(초,중,종성 데이터)
-- KLua.exists(원본String, 초성)
+- KLua.exists(원본 String, 초성)
+- KLua.split(원본 String)
 
 #### 사용 방법
 
