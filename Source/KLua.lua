@@ -50,6 +50,9 @@ local merge = function(tbl)
 end
 
 local chosungs = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"}
+local i_jaums = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"}
+local i_jaums_jongsung = {"ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"}
+local i_moums = {"ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"}
 for k,v in pairs(chosungs) do
     chosungs[v] = k
 end
@@ -81,11 +84,40 @@ local exists = function(origStr, toFind)
     return false
 end
 
+local split = function(origStr)
+    local returnTable = {}
+    for ik = 1, utf8.len(origStr), 1 do
+        local bytedStr = utf8.byte(utf8.sub(origStr, ik, ik))
+        print("++", utf8.sub(origStr, ik, ik), bytedStr, utf8.byte("ㄱ"), utf8.byte("힣"))
+        if bytedStr >= utf8.byte("ㄱ") and bytedStr <= utf8.byte("힣") then
+            local indexFirst = math.floor(((((bytedStr-44032) - (bytedStr-44032)%28))/28) / 21) + 1
+            local indexSecond = math.floor(((((bytedStr-44032) - (bytedStr-44032)%28))/28) % 21) + 1
+            local indexThird = math.floor((bytedStr-44032) % 28)
+            
+            print(indexFirst, #i_jaums, i_jaums[indexFirst])
+            print(indexSecond, #i_moums, i_moums[indexSecond])
+            print(indexThird, #i_jaums_jongsung, i_jaums_jongsung[indexThird])
+    
+            if i_jaums[indexFirst] == nil then
+                returnTable[#returnTable+1] = {utf8.char(bytedStr)}
+            elseif indexThird == 0 then
+                returnTable[#returnTable+1] = {i_jaums[indexFirst], i_moums[indexSecond]}
+            else
+                returnTable[#returnTable+1] = {i_jaums[indexFirst], i_moums[indexSecond], i_jaums_jongsung[indexThird]}
+            end
+        else
+            returnTable[#returnTable+1] = {utf8.char(bytedStr)}
+        end
+    end
+    return returnTable
+end
+
 local returnTable = {}
 for k,v in pairs(utf8) do
     returnTable[k] = v
 end
 returnTable.merge = merge
+returnTable.split = split
 returnTable.exists = exists
 
 return returnTable
