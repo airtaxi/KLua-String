@@ -1,5 +1,8 @@
 local utf8 = require("utf8char")
 
+local chosungPairs = {["ㄱ"]=4352, ["ㄲ"]=4353, ["ㄴ"]=4354, ["ㄷ"]=4355, ["ㄸ"]=4356, ["ㄹ"]=4357, ["ㅁ"]=4358, ["ㅂ"]=4359, ["ㅃ"]=4360, ["ㅅ"]=4361, ["ㅆ"]=4362, ["ㅇ"]=4363, ["ㅈ"]=4364, ["ㅉ"]=4365, ["ㅊ"]=4366, ["ㅋ"]=4367, ["ㅌ"]=4368, ["ㅍ"]=4369, ["ㅎ"]=4370}
+local jongsungPairs = {["ㄱ"]=4352, ["ㄲ"]=4353, ["ㄳ"]=4354, ["ㄴ"]=4355, ["ㄵ"]=4356, ["ㄶ"]=4357, ["ㄷ"]=4358, ["ㄹ"]=4359, ["ㄺ"]=4360, ["ㄻ"]=4361, ["ㄼ"]=4362, ["ㄽ"]=4363, ["ㄾ"]=4364, ["ㄿ"]=4365, ["ㅀ"]=4366, ["ㅁ"]=4367, ["ㅂ"]=4368, ["ㅄ"]=4369, ["ㅅ"]=4370, ["ㅆ"]=4371, ["ㅇ"]=4372, ["ㅈ"]=4373, ["ㅊ"]=4374, ["ㅋ"]=4375, ["ㅌ"]=4376, ["ㅍ"]=4377, ["ㅎ"]=4378}
+
 local merge = function(tbl)
     local returnString
     
@@ -18,30 +21,19 @@ local merge = function(tbl)
     if(#tbl == 1) then
         returnString = tbl[1]
     elseif(#tbl == 2) then
-        local first = utf8.byte(tbl[1]) - 8241
+		print(utf8.byte(tbl[1]))
         local second = utf8.byte(tbl[2]) - 8174
-        local indexFirst = first - 4352
+        local indexFirst = chosungPairs[tbl[1]] - 4352
         local indexSecond = second - 4449
 
         local c = 44032 + 21*28*indexFirst + 28*indexSecond
         returnString = utf8.char(44032 + 21*28*indexFirst + 28*indexSecond)
     elseif(#tbl == 3) then
-        local first = utf8.byte(tbl[1]) - 8241
         local second = utf8.byte(tbl[2]) - 8174
-        local third = utf8.byte(tbl[3]) - 8241
 
-        local indexFirst = first - 4352
+        local indexFirst = chosungPairs[tbl[1]] - 4352
         local indexSecond = second - 4449
-        local indexThird = third - 4352
-        if(indexThird < 8) then
-            indexThird = indexThird + 1
-        elseif(indexThird < 18) then
-            indexThird = indexThird
-        elseif(indexThird < 22) then
-            indexThird = indexThird - 1
-        else
-            indexThird = indexThird - 2
-        end
+        local indexThird = jongsungPairs[tbl[3]] - 4351
         local c = 44032 + (21*indexFirst + indexSecond)*28 + indexThird
         returnString = utf8.char(c)
     end
@@ -53,6 +45,7 @@ local chosungs = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ",
 local i_jaums = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"}
 local i_jaums_jongsung = {"ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"}
 local i_moums = {"ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"}
+
 for k,v in pairs(chosungs) do
     chosungs[v] = k
 end
